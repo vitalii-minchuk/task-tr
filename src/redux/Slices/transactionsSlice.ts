@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import { TransactionType } from "../types"
+import { TransactionType } from "../../types"
 
 type TransactionState = {
   transactions: TransactionType[]

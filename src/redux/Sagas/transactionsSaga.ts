@@ -1,12 +1,12 @@
 import { call, put, select, takeEvery } from "@redux-saga/core/effects"
-import { TransactionType } from "../types"
-import { addData, deleteData, getData, updateData } from "./api"
+import { TransactionType } from "../../types"
+import { addData, deleteData, getData, updateData } from "../api"
 import { addTransaction,
   fetchTransactions,
   fetchTransactionsSuccess,
   removeTransaction,
   toggleStatus 
-} from "./transactionsSlice"
+} from "../Slices/transactionsSlice"
 
 
 export function* fetchTransactionsSaga() {

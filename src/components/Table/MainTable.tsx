@@ -1,4 +1,8 @@
-import { FC } from "react"
+import { FC, useEffect } from "react"
+
+import { useAppDispatch, useAppSelector } from "../../hooks"
+import { tableHeader } from "../../utils/constants"
+import { fetchTransactions } from "../../redux/Slices/transactionsSlice"
 
 import {
   Box,
@@ -11,33 +15,44 @@ import {
   Tbody,
   Tfoot,
   Td,
+  Text,
 } from "@chakra-ui/react"
-import { tableHeader } from "../../utils/constants"
-import { useAppSelector } from "../../hooks"
+
+
 import TableItem from "./TableItem"
 import TableOptions from "./TableOptions"
 
 const MainTable: FC = () => {
   const { transactions } = useAppSelector(state => state.transactions)
+  // const { isLoading } = useAppSelector(state => state.transactions)
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTransactions()) 
+  }, [dispatch])
+
   return (
     <Box as="section">
       <Container  maxW="6xl">
         <TableContainer>
-          <Table variant='simple'>
+          <Table variant='simple' size="sm">
             <Thead>
               <Tr>
                 <TableOptions />
               </Tr>
               <Tr>
                 {tableHeader.map(title => (
-                  <Th key={title}>{title}</Th>
+                  <Th key={title}>
+                    <Text>{title}</Text>
+                  </Th>
                 ))}
               </Tr>
             </Thead>
             <Tbody>
               {transactions?.map(transaction => (
-                <Tr>
-                  <TableItem key={transaction.transactionid} transaction={transaction} />
+                <Tr key={transaction.transactionid}>
+                  <TableItem transaction={transaction} />
                 </Tr>
               ))}
             </Tbody>

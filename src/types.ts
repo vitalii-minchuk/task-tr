@@ -17,3 +17,5 @@ export type OpenDialogsType = {
   delTr: boolean
   editTr: boolean
 }
+
+export type CurrentDialogType = "addNewTr" | "delTr" | "editTr" | null
