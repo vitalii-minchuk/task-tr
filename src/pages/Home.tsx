@@ -1,10 +1,12 @@
-import { FC } from "react"
+import { FC, Fragment } from "react"
+
+import MainTable from "../components/Table/MainTable"
 
 const Home: FC = () => {
   return (
-    <div>
-      
-    </div>
+    <Fragment>
+      <MainTable />
+    </Fragment>
   )
 }
 
