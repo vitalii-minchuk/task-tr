@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react"
 
 import TableItem from "./TableItem"
+import PaginatedItems from "../Pagination"
 
 const MainTable: FC = () => {
   const { transactions, isLoading } = useAppSelector(state => state.transactions)
@@ -33,9 +34,8 @@ const MainTable: FC = () => {
   return (
     <Box as="section">
         <TableContainer>
-        {isLoading && <Progress size='xs' isIndeterminate />}
+        {isLoading ? <Progress size='xs' isIndeterminate /> : <Box h={1}></Box>}
           <Table variant='simple' size="sm">
-            <TableCaption>Imperial to metric conversion factors</TableCaption>
             <Thead>
               <Tr>
                 {tableHeader.map(title => (
@@ -54,13 +54,9 @@ const MainTable: FC = () => {
                 </Tr>
               ))}
             </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th>into</Th>
-              </Tr>
-            </Tfoot>
           </Table>
         </TableContainer>
+        <PaginatedItems data={transactions} />
     </Box>
   )
 }

@@ -32,15 +32,15 @@ const TableItem: FC<ITableItem> = ({ transaction }) => {
       <Td>{transaction.type}</Td>
       <Td>{transaction.clientname}</Td>
       <Td>{transaction.amount}</Td>
-      <Td>
-        <Button onClick={editHandler}>
+      <Td display="flex" alignItems="center" gap={3}>
+        <Button bg="transparent" onClick={editHandler}>
           <Tooltip hasArrow label="edit" placement="top" bg="gray.300" color="black">
-            <EditIcon />
+            <EditIcon color="green.500" />
           </Tooltip>
         </Button>
-        <Button onClick={deleteHandler}>
+        <Button bg="transparent" onClick={deleteHandler}>
           <Tooltip hasArrow label="delete" placement="top" bg="gray.300" color="black">
-            <DeleteIcon />
+            <DeleteIcon color="red.500" />
           </Tooltip>
         </Button>
       </Td>

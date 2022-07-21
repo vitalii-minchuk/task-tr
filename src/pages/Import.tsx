@@ -8,7 +8,7 @@ import { TransactionType } from "../types"
 import { papaparseOptions } from "../utils/constants"
 import CSVReader from "react-csv-reader"
 
-import { Button, Container, Text } from "@chakra-ui/react"
+import { Button, Container, Spacer, Stack, Text } from "@chakra-ui/react"
 
 const Import: FC = () => {
   const { data } = useAppSelector(state => state.import)
@@ -25,19 +25,22 @@ const Import: FC = () => {
   return (
     <Fragment>
       <Container  maxW="6xl">
-        {transactions?.length ? (
-          <Text>The table should be empty. In order to import new data, please clear the table up</Text>
-        ) : (
-          <Fragment>
-            <CSVReader
-              cssClass="csv-input"
-              onFileLoaded={handleForce}
-              parserOptions={papaparseOptions}
-            />
-            <Button disabled={!data?.length} onClick={importHandler}>import</Button>
-          </Fragment>
-        )}
-
+      <Stack mt={40} h={60} w="270px" mx="auto" boxShadow="dark-lg" p="6" rounded="md">
+          {transactions?.length ? (
+            <Text>The table should be empty. In order to import new data, please clear the table up</Text>
+          ) : (
+            <Fragment>
+              <Text pb={3}>Please chose .csv file to import</Text>
+              <CSVReader
+                cssClass="csv-input"
+                onFileLoaded={handleForce}
+                parserOptions={papaparseOptions}
+              />
+              <Spacer />
+              <Button disabled={!data?.length} onClick={importHandler}>import</Button>
+            </Fragment>
+          )}
+        </Stack>
       </Container>
     </Fragment>
   )
