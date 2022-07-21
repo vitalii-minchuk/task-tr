@@ -25,3 +25,13 @@ export const convertMoney = (money: number): string => {
   
   return formatter.format(money)
 }
+
+export const getNumberOfPages = (num: number): Array<number> => {
+  let arr: Array<number> = []
+
+  for (let i = 1; i <= num; i ++) {
+    arr.push(i)
+  }
+  
+  return arr
+}

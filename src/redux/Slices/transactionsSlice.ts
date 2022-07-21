@@ -5,12 +5,16 @@ type TransactionState = {
   transactions: TransactionType[]
   currentTr: TransactionType | null
   isLoading: boolean
+  filter: string
+  error: any
 }
 
 const initialState: TransactionState = {
   transactions: [],
   currentTr: null,
-  isLoading: false
+  isLoading: false,
+  filter: "",
+  error: ""
 }
 
 const transactionsSlice = createSlice({
@@ -45,14 +49,51 @@ const transactionsSlice = createSlice({
     },
     setCurrentTr(state, action: PayloadAction<TransactionType>) {
       state.currentTr = action.payload
-    }
+    },
+    filterByStatus(state, action: PayloadAction<string>) {
+      state.filter = action.payload
+      state.isLoading = true
+    },
+    filterByStatusSuccess(state, action: PayloadAction<TransactionType[]>) {
+      state.transactions = action.payload
+      state.isLoading = false
+    },
+    filterByType(state, action: PayloadAction<string>) {
+      state.filter = action.payload
+      state.isLoading = true
+    },
+    filterByTypeSuccess(state, action: PayloadAction<TransactionType[]>) {
+      state.transactions = action.payload
+      state.isLoading = false
+    },
+    searchByName(state, action: PayloadAction<string>) {
+      state.filter = action.payload
+      state.isLoading = true
+    },
+    searchByNameSuccess(state, action: PayloadAction<TransactionType[]>) {
+      state.transactions = action.payload
+      state.isLoading = false
+    },
+    requestFailure(state, action: PayloadAction<string> ) {
+      state.error = action.payload
+      state.isLoading = false
+    },
   }
 })
 
-export const { addTransaction,
+export const {
+  requestFailure,
+  addTransaction,
   removeTransaction,
   toggleStatus,
+  filterByStatus,
+  filterByStatusSuccess,
+  filterByType,
+  filterByTypeSuccess,
   fetchTransactions,
   fetchTransactionsSuccess,
-  setCurrentTr } = transactionsSlice.actions
+  searchByName,
+  searchByNameSuccess,
+  setCurrentTr
+} = transactionsSlice.actions
 export default transactionsSlice.reducer

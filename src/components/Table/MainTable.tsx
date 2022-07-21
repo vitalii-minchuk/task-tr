@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react"
+import { FC, Fragment, useEffect, useState } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../hooks"
 import { tableHeader } from "../../utils/constants"
@@ -12,52 +12,57 @@ import {
   Tr,
   Th,
   Tbody,
-  Tfoot,
   Text,
-  TableCaption,
   Progress,
 } from "@chakra-ui/react"
 
 import TableItem from "./TableItem"
-import PaginatedItems from "../Pagination"
+import usePagination from "../../hooks/usePagination"
+import Pagination from "./Pagination"
 
 const MainTable: FC = () => {
+  const [currentPage, setCurrentPage] = useState(0)
   const { transactions, isLoading } = useAppSelector(state => state.transactions)
-  // const { isLoading } = useAppSelector(state => state.transactions)
-
+  
   const dispatch = useAppDispatch()
+
+  const { currentItems, pageCount } = usePagination(transactions, currentPage)
 
   useEffect(() => {
     dispatch(fetchTransactions()) 
   }, [dispatch])
 
   return (
-    <Box as="section">
-        <TableContainer>
-        {isLoading ? <Progress size='xs' isIndeterminate /> : <Box h={1}></Box>}
-          <Table variant='simple' size="sm">
-            <Thead>
-              <Tr>
-                {tableHeader.map(title => (
-                  <Th key={title}>
-                    <Text>{title}</Text>
-                  </Th>
-                ))}
-              </Tr>
-            </Thead>
-
-            <Tbody>
- 
-              {transactions?.map(transaction => (
-                <Tr key={transaction.transactionid}>
-                  <TableItem transaction={transaction} />
-                </Tr>
+    <Fragment>
+      <TableContainer>
+        {isLoading ? <Progress size="xs" isIndeterminate /> : <Box h={1}></Box>}
+        <Table variant="simple" size="sm">
+          <Thead>
+            <Tr>
+              {tableHeader.map(title => (
+                <Th key={title}>
+                  <Text>{title}</Text>
+                </Th>
               ))}
-            </Tbody>
-          </Table>
-        </TableContainer>
-        <PaginatedItems data={transactions} />
-    </Box>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {currentItems?.map(transaction => (
+              <Tr key={transaction.transactionid}>
+                <TableItem transaction={transaction} />
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      {transactions?.length > 6 &&
+        <Pagination
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          pageCount={pageCount}
+        />
+      }
+    </Fragment>
   )
 }
 

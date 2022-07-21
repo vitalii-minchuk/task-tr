@@ -57,7 +57,7 @@ const ImportDataModal: FC = () => {
           <ModalHeader>Importing data ...</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <CircularProgress value={value} color='green.400'>
+            <CircularProgress value={value} color="green.400">
               <CircularProgressLabel>{value}%</CircularProgressLabel>
             </CircularProgress>
             <Text>

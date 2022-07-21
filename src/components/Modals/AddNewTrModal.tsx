@@ -2,18 +2,23 @@ import { FC, useState } from "react"
 
 import { TransactionType } from "../../types"
 import { useAppDispatch, useAppSelector } from "../../hooks"
-import { addTransaction, removeTransaction } from "../../redux/Slices/transactionsSlice"
+import { addTransaction } from "../../redux/Slices/transactionsSlice"
 import { closeDialog } from "../../redux/Slices/openModalSlice"
 
 import {
   Button,
+  FormControl,
+  FormLabel,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Select,
+  SelectField
 } from "@chakra-ui/react"
 import { convertMoney, getOrderNumber } from "../../utils/helpers"
 
@@ -25,8 +30,7 @@ const AddNewTrModal: FC = () => {
     clientname: "Boris",
     amount: "11"
   })
-
-  
+console.log(newTransaction)
   const { dialogs } = useAppSelector(state => state.dialogs)
   const { transactions } = useAppSelector(state => state.transactions)
 
@@ -52,14 +56,60 @@ const AddNewTrModal: FC = () => {
       <Modal isOpen={dialogs.addNewTr} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>New Transaction</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-
-          </ModalBody>
-
+            <FormControl>
+                <FormLabel>Client Name</FormLabel>
+                <Input
+                  onChange={(e) => setNewTransaction({
+                    ...newTransaction,
+                    clientname: e.target.value
+                  })}
+                  value={newTransaction.clientname}
+                />
+              </FormControl>
+            <FormControl>
+                <FormLabel>Status</FormLabel>
+                <Select
+                  onChange={(e) => setNewTransaction({
+                    ...newTransaction,
+                    status: e.target.value
+                  })}
+                  value={newTransaction.status}
+                >
+                  <option value="Pending">Pending</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Cancelled">Cancelled</option>
+                </Select>
+              </FormControl>
+            <FormControl>
+                <FormLabel>Type</FormLabel>
+                <Select
+                  onChange={(e) => setNewTransaction({
+                    ...newTransaction,
+                    type: e.target.value
+                  })}
+                  value={newTransaction.type}
+                >
+                  <option value="Refill">Refill</option>
+                  <option value="Completed">Withdrawal</option>
+                </Select>
+              </FormControl>
+            <FormControl>
+                <FormLabel>Amount</FormLabel>
+                <Input
+                    type="number"
+                    value={newTransaction.amount}
+                    onChange={(e) => setNewTransaction({
+                    ...newTransaction,
+                    amount: e.target.value
+                  })}
+                />
+              </FormControl>
+            </ModalBody>
           <ModalFooter>
-            <Button onClick={onClose}>cancel</Button>
+            <Button mr={4} onClick={onClose}>cancel</Button>
             <Button onClick={onConfirm}>ok</Button>
           </ModalFooter>
         </ModalContent>

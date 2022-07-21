@@ -1,4 +1,4 @@
-import { FC } from "react"
+import { FC, Fragment } from "react"
 
 import { useAppDispatch, useAppSelector } from "../../hooks"
 import { setCurrentTr, toggleStatus } from "../../redux/Slices/transactionsSlice"
@@ -13,7 +13,8 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalOverlay
+  ModalOverlay,
+  Text
 } from "@chakra-ui/react"
 
 
@@ -50,16 +51,17 @@ const EditStatusModal: FC = () => {
   }
 
   return (
-    <>
+    <Fragment>
       <Modal isOpen={dialogs.editTr} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>transaction #{currentTr?.transactionid}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            {currentStatus}
+            <Text py={4} mx="auto" w="60%" align="center">
+              Would you like to change current status {currentStatus}?
+            </Text>
           </ModalBody>
-
           <ModalFooter>
             {statusOptions?.map(status => (
               <Button onClick={onConfirm}>{status}</Button>
@@ -67,7 +69,7 @@ const EditStatusModal: FC = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </>
+    </Fragment>
   )
 }
 

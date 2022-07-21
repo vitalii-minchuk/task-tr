@@ -21,13 +21,6 @@ import {
 
 const Export: FC = () => {
   const { transactions } = useAppSelector(state => state.transactions)
-  // const { isLoading } = useAppSelector(state => state.transactions)
-
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(fetchTransactions()) 
-  }, [dispatch])
 
   return (
     <Box as="section">
