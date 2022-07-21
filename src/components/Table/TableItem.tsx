@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../hooks"
 import { openDialog } from "../../redux/Slices/openModalSlice"
 import { setCurrentTr } from "../../redux/Slices/transactionsSlice"
 
-import { Button, Th, Tooltip, Tr } from "@chakra-ui/react"
+import { Button, Td, Tooltip } from "@chakra-ui/react"
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons"
 
 interface ITableItem {
@@ -27,12 +27,12 @@ const TableItem: FC<ITableItem> = ({ transaction }) => {
 
   return (
     <Fragment>
-      <Th>{transaction.transactionid}</Th>
-      <Th>{transaction.status}</Th>
-      <Th>{transaction.type}</Th>
-      <Th>{transaction.clientname}</Th>
-      <Th>{transaction.amount}</Th>
-      <Th>
+      <Td>{transaction.transactionid}</Td>
+      <Td>{transaction.status}</Td>
+      <Td>{transaction.type}</Td>
+      <Td>{transaction.clientname}</Td>
+      <Td>{transaction.amount}</Td>
+      <Td>
         <Button onClick={editHandler}>
           <Tooltip hasArrow label="edit" placement="top" bg="gray.300" color="black">
             <EditIcon />
@@ -43,7 +43,7 @@ const TableItem: FC<ITableItem> = ({ transaction }) => {
             <DeleteIcon />
           </Tooltip>
         </Button>
-      </Th>
+      </Td>
     </Fragment>
   )
 }

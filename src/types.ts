@@ -16,6 +16,7 @@ export type OpenDialogsType = {
   addNewTr: boolean
   delTr: boolean
   editTr: boolean
+  import: boolean
 }
 
-export type CurrentDialogType = "addNewTr" | "delTr" | "editTr" | null
+export type CurrentDialogType = "import" | "addNewTr" | "delTr" | "editTr" | null

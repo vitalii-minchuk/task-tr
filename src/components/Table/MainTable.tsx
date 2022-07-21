@@ -6,7 +6,6 @@ import { fetchTransactions } from "../../redux/Slices/transactionsSlice"
 
 import {
   Box,
-  Container,
   TableContainer,
   Table,
   Thead,
@@ -14,16 +13,15 @@ import {
   Th,
   Tbody,
   Tfoot,
-  Td,
   Text,
+  TableCaption,
+  Progress,
 } from "@chakra-ui/react"
 
-
 import TableItem from "./TableItem"
-import TableOptions from "./TableOptions"
 
 const MainTable: FC = () => {
-  const { transactions } = useAppSelector(state => state.transactions)
+  const { transactions, isLoading } = useAppSelector(state => state.transactions)
   // const { isLoading } = useAppSelector(state => state.transactions)
 
   const dispatch = useAppDispatch()
@@ -34,13 +32,11 @@ const MainTable: FC = () => {
 
   return (
     <Box as="section">
-      <Container  maxW="6xl">
         <TableContainer>
+        {isLoading && <Progress size='xs' isIndeterminate />}
           <Table variant='simple' size="sm">
+            <TableCaption>Imperial to metric conversion factors</TableCaption>
             <Thead>
-              <Tr>
-                <TableOptions />
-              </Tr>
               <Tr>
                 {tableHeader.map(title => (
                   <Th key={title}>
@@ -49,7 +45,9 @@ const MainTable: FC = () => {
                 ))}
               </Tr>
             </Thead>
+
             <Tbody>
+ 
               {transactions?.map(transaction => (
                 <Tr key={transaction.transactionid}>
                   <TableItem transaction={transaction} />
@@ -63,7 +61,6 @@ const MainTable: FC = () => {
             </Tfoot>
           </Table>
         </TableContainer>
-      </Container>
     </Box>
   )
 }

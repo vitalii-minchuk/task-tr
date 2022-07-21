@@ -1,11 +1,17 @@
 import { FC, Fragment } from "react"
 
+import { Container } from "@chakra-ui/react"
+
 import MainTable from "../components/Table/MainTable"
+import TableOptions from "../components/Table/TableOptions"
 
 const Home: FC = () => {
   return (
     <Fragment>
-      <MainTable />
+      <Container  maxW="6xl">
+        <TableOptions />
+        <MainTable />
+      </Container>
     </Fragment>
   )
 }

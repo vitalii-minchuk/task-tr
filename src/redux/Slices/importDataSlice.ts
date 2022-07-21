@@ -4,13 +4,11 @@ import { TransactionType } from "../../types"
 type TransactionState = {
   data: TransactionType[]
   isImporting: boolean
-  currentData: TransactionType | null
 }
 
 const initialState: TransactionState = {
   data: [],
   isImporting: false,
-  currentData: null
 }
 
 const importDataSlice = createSlice({
@@ -25,9 +23,17 @@ const importDataSlice = createSlice({
     },
     importDataSuccess(state) {
       state.isImporting = false
+      state.data = []
     },
+    cancelImport(state) {
+      state.isImporting = false
+      state.data = []
+    }
   }
 })
 
-export const { importData, downloadData, importDataSuccess } = importDataSlice.actions
+export const { importData,
+  downloadData,
+  importDataSuccess,
+  cancelImport } = importDataSlice.actions
 export default importDataSlice.reducer

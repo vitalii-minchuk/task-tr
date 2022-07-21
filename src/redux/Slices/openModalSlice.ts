@@ -10,7 +10,8 @@ const initialState: TransactionState = {
   dialogs: {
     addNewTr: false,
     delTr: false,
-    editTr: false
+    editTr: false,
+    import: false
   },
   currentDialog: null
 }
