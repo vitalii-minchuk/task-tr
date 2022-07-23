@@ -35,3 +35,9 @@ export const getNumberOfPages = (num: number): Array<number> => {
   
   return arr
 }
+
+export const getNumberFromAmount = (amount: string): number => {
+  let number = Number(amount.slice(1))
+
+  return number
+}

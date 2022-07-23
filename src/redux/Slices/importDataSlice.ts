@@ -18,6 +18,9 @@ const importDataSlice = createSlice({
     importData(state) {
       state.isImporting = true
     },
+    choseAnotherData(state) {
+      state.data = []
+    },
     downloadData(state, action: PayloadAction<TransactionType[]>) {
       state.data.push(...action.payload)
     },
@@ -34,6 +37,7 @@ const importDataSlice = createSlice({
 
 export const { importData,
   downloadData,
+  choseAnotherData,
   importDataSuccess,
   cancelImport } = importDataSlice.actions
 export default importDataSlice.reducer

@@ -1,8 +1,11 @@
-import { FC, Fragment, useEffect } from "react"
+import { FC, Fragment, useEffect, useState } from "react"
 
+import {  useAppDispatch, useAppSelector } from "../hooks"
 import { fetchTransactions } from "../redux/Slices/transactionsSlice"
-import { useAppDispatch, useAppSelector } from "../hooks"
+import { useMapTables } from "../hooks/useMapTable"
+import { AmountFilterType, TransactionType } from "../types"
 import { tableHeader } from "../utils/constants"
+import { getNumberFromAmount } from "../utils/helpers"
 import CsvDownload from "react-json-to-csv"
 
 import {
@@ -16,15 +19,97 @@ import {
   Tbody,
   Text,
   Center,
+  Flex,
+  RadioGroup,
+  Stack,
+  Radio,
+  RangeSlider,
+  RangeSliderTrack,
+  RangeSliderFilledTrack,
+  RangeSliderThumb,
+  Tooltip,
+  Spacer,
 } from "@chakra-ui/react"
-
 
 const Export: FC = () => {
   const { transactions } = useAppSelector(state => state.transactions)
+  const [items, setItems] = useState<TransactionType[] | []>([])
+  const [filteredItems, setFilteredItems] = useState<TransactionType[]>(items)
+  const [typeFilter, setTypeFilter] = useState("All")
+  const [statusFilter, setStatusFilter] = useState("All")
+  const [amountFilter, setAmountFilter] = useState<AmountFilterType>({from: 0, to: 100})
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchTransactions()) 
+  }, [dispatch])
+
+  const myTable = useMapTables(transactions)
+
+  useEffect(() => {
+    let filteredItems = [] as TransactionType[]
+    items?.forEach(el => {
+      const num = getNumberFromAmount(el.amount)
+
+      if (amountFilter.from < num && num < amountFilter.to) {
+        filteredItems.push(el)
+      }
+    })
+    setFilteredItems(filteredItems)
+  }, [amountFilter, items])
+
+  useEffect(() => {
+    if (myTable) {
+      setItems(myTable?.get(`${typeFilter}${statusFilter}`))
+    }
+  }, [myTable, statusFilter, typeFilter])
 
   return (
     <Box as="section">
       <Container  maxW="6xl">
+        <Flex my={2} gap={12}>
+          <RadioGroup onChange={setTypeFilter} value={typeFilter}>
+            <Text mb={2}>Type</Text>
+            <Stack>
+              <Radio value='All'>All</Radio>
+              <Radio value='Refill'>Refill</Radio>
+              <Radio value='Withdrawal'>Withdrawal</Radio>
+            </Stack>
+          </RadioGroup>
+          <RadioGroup onChange={setStatusFilter} value={statusFilter}>
+            <Text mb={2}>Status</Text>
+            <Stack>
+              <Radio value='All'>All</Radio>
+              <Radio value='Pending'>Pending</Radio>
+              <Radio value='Completed'>Completed</Radio>
+              <Radio value='Cancelled'>Cancelled</Radio>
+            </Stack>
+          </RadioGroup>
+          <Box w={200}>
+            <Text mb={8}>Amount</Text>
+            <RangeSlider
+              onChange={(value) => setAmountFilter({
+                ...amountFilter,
+                from: value[0],
+                to: value[1]
+              })}
+              defaultValue={[0, 100]}
+            >
+              <RangeSliderTrack>
+                <RangeSliderFilledTrack />
+              </RangeSliderTrack>
+              <Tooltip placement='top' label={`$${amountFilter?.from}`}>
+                <RangeSliderThumb bg={"teal"}  index={0} />
+              </Tooltip>
+              <Tooltip placement='top' label={`$${amountFilter?.to}`}>
+                <RangeSliderThumb bg={"teal"} index={1} />
+              </Tooltip>
+            </RangeSlider>
+          </Box>
+          <Spacer />
+          <Text fontSize='2xl'>TOTAL: {filteredItems?.length}</Text>
+        </Flex>
         {transactions?.length ? (
           <Fragment>
             <TableContainer py="4">
@@ -39,7 +124,7 @@ const Export: FC = () => {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {transactions?.map(transaction => (
+                  {filteredItems?.map(transaction => (
                     <Tr key={transaction.transactionid}>
                       <Th>{transaction.transactionid}</Th>
                       <Th>{transaction.status}</Th>

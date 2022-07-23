@@ -21,6 +21,7 @@ const Pagination: FC<IPagination> = ({ setCurrentPage, pageCount, currentPage })
     <Flex gap={2} pt={3} position="absolute">
       {pages?.map(num => (
         <Button
+          w={4}
           border={num === currentPage + 1 ? "1px solid gray" : "none"}
           key={num} 
           value={num}

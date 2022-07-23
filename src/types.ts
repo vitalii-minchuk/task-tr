@@ -20,3 +20,8 @@ export type OpenDialogsType = {
 }
 
 export type CurrentDialogType = "import" | "addNewTr" | "delTr" | "editTr" | null
+
+export type AmountFilterType ={
+  from: number
+  to: number
+}

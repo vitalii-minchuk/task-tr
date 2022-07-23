@@ -64,7 +64,7 @@ const EditStatusModal: FC = () => {
           </ModalBody>
           <ModalFooter>
             {statusOptions?.map(status => (
-              <Button onClick={onConfirm}>{status}</Button>
+              <Button mx={2} onClick={onConfirm}>{status}</Button>
             ))}
           </ModalFooter>
         </ModalContent>
